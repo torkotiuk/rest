@@ -1,8 +1,18 @@
 const fs = require('fs').promises;
-const path = require('path');
-const contactsFile = path.basename('C:/rep/rest/contacts.json');
+const { contactsFile } = require('../../model');
+const { itemSchemaUpdate } = require('../../utils/validate/schemas/contacts');
 
 const update = async (req, res) => {
+  const { error } = itemSchemaUpdate.validate(req.body);
+  if (error) {
+    res.status(400).json({
+      status: 'error',
+      code: 400,
+      message: error.details[0].message,
+    });
+    return;
+  }
+
   const { contactId } = req.params;
 
   const file = await fs.readFile(contactsFile, 'utf8');
@@ -17,17 +27,16 @@ const update = async (req, res) => {
     });
     return;
   }
-  // why here contacts are old????
+
   const currentItem = contacts[index];
   contacts[index] = { ...currentItem, ...req.body, id: contactId };
-  // why here contacts become new????
-  // ===
+
   await fs.writeFile(contactsFile, JSON.stringify(contacts), 'utf8', error => {
     if (error) {
       console.log(error);
     }
   });
-  // ===
+
   res.json({
     status: 'success',
     code: 200,

@@ -1,9 +1,8 @@
-const contacts = require('../../contacts.json');
+const { contactsFile } = require('../../model');
 
 const getById = (req, res) => {
   const { contactId } = req.params;
-  // const selectedItem = contacts.find(item => item.id === Number(contactId));
-  const selectedItem = contacts.find(item => item.id === contactId);
+  const selectedItem = contactsFile.find(item => item.id === contactId);
 
   if (!selectedItem) {
     res.status(404).json({

@@ -1,7 +1,5 @@
-// const products = require('../../model/contacts.json');
 const fs = require('fs').promises;
-const path = require('path');
-const contactsFile = path.basename('C:/rep/rest/contacts.json');
+const { contactsFile } = require('../../model');
 
 const del = async (req, res) => {
   const { contactId } = req.params;
@@ -19,7 +17,6 @@ const del = async (req, res) => {
     return;
   }
 
-  // products.splice(index, 1);
   const newContacts = await contacts.filter(item => item.id !== contactId);
   await fs.writeFile(
     contactsFile,
@@ -35,7 +32,7 @@ const del = async (req, res) => {
   res.status(200).json({
     status: 'success',
     code: 200,
-    message: 'Content was deleted successfully/No content',
+    message: 'Item was deleted successfully/No content',
   });
 };
 
