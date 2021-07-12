@@ -1,5 +1,4 @@
-const fs = require('fs').promises;
-const { contactsFile } = require('../../model');
+const { Contact } = require('../../model');
 const { itemSchemaUpdate } = require('../../utils/validate/schemas/contacts');
 
 const update = async (req, res) => {
@@ -13,37 +12,18 @@ const update = async (req, res) => {
     return;
   }
 
-  const { contactId } = req.params;
-
-  const file = await fs.readFile(contactsFile, 'utf8');
-  const contacts = await JSON.parse(file);
-
-  const index = await contacts.findIndex(item => item.id === contactId);
-  if (index === -1) {
+  try {
+    const result = await Contact.findOneAndUpdate(
+      { _id: req.params.contactId },
+      { ...req.body },
+      { new: true },
+    );
+    res.status(200).json(result);
+  } catch (error) {
     res.status(404).json({
-      status: 'error',
-      code: 404,
-      message: 'Not found',
+      error: error.message,
     });
-    return;
   }
-
-  const currentItem = contacts[index];
-  contacts[index] = { ...currentItem, ...req.body, id: contactId };
-
-  await fs.writeFile(contactsFile, JSON.stringify(contacts), 'utf8', error => {
-    if (error) {
-      console.log(error);
-    }
-  });
-
-  res.json({
-    status: 'success',
-    code: 200,
-    data: {
-      result: contacts[index],
-    },
-  });
 };
 
 module.exports = update;

@@ -1,6 +1,4 @@
-const fs = require('fs').promises;
-const { v4 } = require('uuid');
-const { contactsFile } = require('../../model');
+const { Contact } = require('../../model');
 const { itemSchemaAdd } = require('../../utils/validate/schemas/contacts');
 
 const add = async (req, res) => {
@@ -9,31 +7,18 @@ const add = async (req, res) => {
     res.status(400).json({
       status: 'error',
       code: 400,
-      message: error.details[0].message,
+      message: `JOI schema checking error: ${error.details[0].message}. 
+      Please fill the number in formats (123) 456-7890 or 123-456-7890`,
     });
     return;
   }
 
-  const file = await fs.readFile(contactsFile, 'utf8');
-  const contacts = await JSON.parse(file);
-  const newItem = {
-    id: v4(),
-    ...req.body,
-  };
-  await contacts.push(newItem);
-  await fs.writeFile(contactsFile, JSON.stringify(contacts), 'utf8', error => {
-    if (error) {
-      console.log(error);
-    }
-  });
-
-  res.status(201).json({
-    status: 'success',
-    code: 201,
-    data: {
-      result: newItem,
-    },
-  });
+  try {
+    const result = await Contact.create(req.body);
+    res.status(201).json(result);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
 };
 
 module.exports = add;
