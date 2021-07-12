@@ -9,6 +9,9 @@ module.exports = mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log('Database connect');
+    console.log('Database connection successful');
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    console.log(err)
+    process.exit(1)
+  });

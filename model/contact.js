@@ -26,6 +26,10 @@ const contactsSchema = Schema(
         'Please fill the number in formats (123) 456-7890 or 123-456-7890',
       ],
     },
+    favorite: {
+      type: Boolean,
+      default: false,
+    },
   },
   { versionKey: false, timestamps: false },
 );
