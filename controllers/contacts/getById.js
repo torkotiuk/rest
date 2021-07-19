@@ -1,25 +1,29 @@
-const { contactsFile } = require('../../model');
+const { Contact } = require('../../model');
 
-const getById = (req, res) => {
+const getById = async (req, res) => {
   const { contactId } = req.params;
-  const selectedItem = contactsFile.find(item => item.id === contactId);
 
-  if (!selectedItem) {
-    res.status(404).json({
-      status: 'error',
-      code: 404,
-      message: 'Contact with this id is not found',
+  try {
+    const result = await Contact.findById(contactId);
+
+    if (!result) {
+      return res.status(404).json({
+        message: "Item with this id doesn't exist",
+      });
+    }
+
+    res.json({
+      status: 'success',
+      code: 200,
+      data: {
+        result: result,
+      },
     });
-    return;
+  } catch (error) {
+    res.status(404).json({
+      error: error.message,
+    });
   }
-
-  res.json({
-    status: 'success',
-    code: 200,
-    data: {
-      result: selectedItem,
-    },
-  });
 };
 
 module.exports = getById;

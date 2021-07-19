@@ -7,7 +7,7 @@ const itemSchemaAdd = Joi.object({
     tlds: { allow: ['com', 'net'] },
   }),
   phone: Joi.string()
-    .pattern(/^[0-9]+$/)
+    .pattern(/^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/)
     .required(),
 });
 
@@ -17,7 +17,7 @@ const itemSchemaUpdate = Joi.object({
     minDomainSegments: 2,
     tlds: { allow: ['com', 'net'] },
   }),
-  phone: Joi.string().pattern(/^[0-9]+$/),
+  phone: Joi.string().pattern(/^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/),
 });
 
 module.exports = { itemSchemaUpdate, itemSchemaAdd };

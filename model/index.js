@@ -1,5 +1,5 @@
-const contactsFile = require('./helperPath');
+const Contact = require('./contact');
 
 module.exports = {
-  contactsFile,
+  Contact,
 };
