@@ -5,7 +5,8 @@ const checkIfUserExistInDb = filter => {
 };
 
 const add = ({ email, password }) => {
-  return User.create({ email, password });
+  const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(6));
+  return User.create({ email, password: hashPassword });
 };
 
 module.exports = {
