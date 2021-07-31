@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { contacts: ctrl } = require('../../controllers');
+const { jwttokenmiddleware } = require('../../middleware');
 
-router.get('/', ctrl.getAll);
+router.get('/', jwttokenmiddleware, ctrl.getAll);
 router.get('/:contactId', ctrl.getById);
 
 router.post('/', ctrl.add);
