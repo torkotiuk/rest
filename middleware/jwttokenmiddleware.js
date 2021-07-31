@@ -14,6 +14,10 @@ const jwttokenmiddleware = async (req, res, next) => {
 
   try {
     jwt.verify(token, SECRET_KEY);
+    // we need id for logout
+    const user = jwt.decode(token);
+    req.user = user;
+    //
     next();
   } catch (error) {
     res.status(401).json({
