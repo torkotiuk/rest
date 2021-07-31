@@ -7,11 +7,12 @@ module.exports = mongoose
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log('Database connection successful');
   })
   .catch(err => {
-    console.log(err)
-    process.exit(1)
+    console.log(err);
+    process.exit(1);
   });
