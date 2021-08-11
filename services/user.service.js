@@ -6,12 +6,22 @@ const checkIfUserExistInDb = filter => {
   return User.findOne(filter);
 };
 
-const add = ({ email, password }) => {
+const updateById = (id, updateInfo) => {
+  return User.findByIdAndUpdate(id, updateInfo);
+};
+
+const add = ({ email, password, verifyCode }) => {
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(6));
-  return User.create({ email, password: hashPassword, avatarURL: avatarUrl });
+  return User.create({
+    email,
+    password: hashPassword,
+    avatarURL: avatarUrl,
+    verifyCode,
+  });
 };
 
 module.exports = {
   checkIfUserExistInDb,
   add,
+  updateById,
 };

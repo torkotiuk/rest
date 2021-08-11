@@ -23,6 +23,14 @@ const userSchema = Schema(
     avatarURL: {
       type: String,
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verifyCode: {
+      type: String,
+      required: [true, 'Verify code is required'],
+    },
   },
   { versionKey: false, timestamps: false },
 );

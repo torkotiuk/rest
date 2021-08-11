@@ -11,6 +11,8 @@ router.post('/signup', ctrl.register);
 router.post('/login', ctrl.login);
 router.get('/logout', jwttokenmiddleware, ctrl.logout);
 router.get('/current', jwttokenmiddleware, ctrl.getProfile);
+router.get('/verify/:verifyCode', ctrl.userVerify);
+router.post('/verify', ctrl.sendEmailAgain);
 
 router.patch(
   '/avatars',

@@ -11,6 +11,15 @@ const login = async (req, res) => {
     const candidate = await service.checkIfUserExistInDb({
       email: req.body.email,
     });
+    if (candidate.email && candidate.verify === false) {
+      res.status(404).json({
+        status: 'Bad request',
+        code: 404,
+        message:
+          'You have been registered already, but email is NOT verified, please check your inbox in email or push the button "send me verification email" if you do not get verification email. Thank you.',
+      });
+      return;
+    }
     if (!candidate) {
       res.status(401).json({
         status: 'Unauthorized',
