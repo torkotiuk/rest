@@ -1,1 +1,1 @@
-# NodeJS Homework 5 - avatar loading via multer
+# NodeJS Homework 6 - email send by NODEMAILER
