@@ -23,7 +23,10 @@ app.use('/api/contacts', contactsRoutes);
 app.use('/api/users', authRoutes);
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' });
+  res.status(404).json({
+    message: 'Not found',
+    api: 'https://rest-api-contacts.herokuapp.com/api-docs/',
+  });
 });
 app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message });
