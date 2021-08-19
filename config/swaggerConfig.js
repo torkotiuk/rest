@@ -11,7 +11,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'http://localhost:3001',
+        url: 'https://rest-api-contacts.herokuapp.com',
       },
     ],
   },
