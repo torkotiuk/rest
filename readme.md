@@ -1,1 +1,3 @@
-# NodeJS Homework 6 - email send by NODEMAILER
+# npm i swagger-jsdoc
+
+# npm i swagger-ui-express
