@@ -1,6 +1,7 @@
 // const nanoid = require('nanoid');
 const { v4 } = require('uuid');
-const { sendEmail } = require('../../helper');
+// const { sendEmail } = require('../../helper');
+const { sendSgMail } = require('../../helper');
 const { user: service } = require('../../services');
 const {
   userSchemaJoi,
@@ -40,8 +41,9 @@ const register = async (req, res, next) => {
       to: email,
       subject: 'Verify your email',
       text: `Press next link http://localhost:3001/api/users/verify/${verifyCode} to verify your ${email}`,
+      html: `<p> press http://localhost:3001/api/users/verify/${verifyCode} to verify your ${email} </p>`,
     };
-    await sendEmail(mail);
+    await sendSgMail(mail);
 
     res.status(201).json({
       status: 'success',

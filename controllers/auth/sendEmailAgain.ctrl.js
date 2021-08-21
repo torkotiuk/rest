@@ -1,4 +1,5 @@
 const { user: service } = require('../../services');
+const { sendSgMail } = require('../../helper');
 
 const sendEmailAgain = async (req, res, next) => {
   const { email } = req.body;
@@ -23,11 +24,20 @@ const sendEmailAgain = async (req, res, next) => {
     }
 
     if (user?.verify === false) {
+      const mail = {
+        to: email,
+        subject: 'Verify your email',
+        text: `Press next link http://localhost:3001/api/users/verify/${user.verifyCode} to verify your ${email}`,
+        html: `<p> press http://localhost:3001/api/users/verify/${user.verifyCode} to verify your ${email} </p>`,
+      };
+      await sendSgMail(mail);
+
       res.status(200).json({
         status: 'success',
         code: 200,
         message: 'Email has been send again successfully',
       });
+
       return;
     }
   } catch (error) {
